@@ -21,3 +21,11 @@ the UI should also have a log window that shows the communication between the cl
 
 ## Prerequisites
 - Windows 10
+
+
+### TODO
+- Add auto pulling for agoran Statuses at all times, different thread, mutex on statuses (even though this will be the only one accessing them?)
+- Add auto pulling for agoran logs based on last seen ID, as to not pull anything unnecessary limit to message from last 48 hours (maybe add option in client to increase limit?), also mutex (probably unnecessary)
+- define logic for manual mode (send request then wait for response?)
+- add logic for buttons to send manual commands (double check on backend, make sure main thread is not blocked)
+

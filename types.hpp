@@ -6,7 +6,7 @@
 namespace main_window {
 
     enum class AgoranStatus {
-        Idle,
+        StandBy,
         Working,
         Error,
         Disabled

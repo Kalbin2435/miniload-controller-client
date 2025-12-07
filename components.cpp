@@ -6,23 +6,28 @@
 
 namespace main_window {
 
+    // Shared state for the modal
+    static int s_selected_agoran_idx = 0;
+    static int s_selected_mode_idx = 0;
+    static bool s_open_popup = false;
+
     void RenderTopBar() {
-        if (ImGui::Button("Change Agoran Mode")) {
+        // Handle popup open request from other functions
+        if (s_open_popup) {
             ImGui::OpenPopup("ChangeModePopup");
+            s_open_popup = false;
         }
         
         if (ImGui::BeginPopupModal("ChangeModePopup", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-            static int selected_agoran_idx = 0;
-            static int selected_mode_idx = 0;
             
-            if (selected_agoran_idx >= (int)g_state.agorans.size()) selected_agoran_idx = 0;
+            if (s_selected_agoran_idx >= (int)g_state.agorans.size()) s_selected_agoran_idx = 0;
 
             if (!g_state.agorans.empty()) {
-                 if (ImGui::BeginCombo("Agoran", ("Agoran " + std::to_string(g_state.agorans[selected_agoran_idx].id)).c_str())) {
+                 if (ImGui::BeginCombo("Agoran", ("Agoran " + std::to_string(g_state.agorans[s_selected_agoran_idx].id)).c_str())) {
                     for (int i = 0; i < (int)g_state.agorans.size(); i++) {
-                        bool is_selected = (selected_agoran_idx == i);
+                        bool is_selected = (s_selected_agoran_idx == i);
                         if (ImGui::Selectable(("Agoran " + std::to_string(g_state.agorans[i].id)).c_str(), is_selected))
-                            selected_agoran_idx = i;
+                            s_selected_agoran_idx = i;
                         if (is_selected)
                             ImGui::SetItemDefaultFocus();
                     }
@@ -31,11 +36,11 @@ namespace main_window {
             }
 
             const char* modes[] = { "Automatic", "Manual" };
-            if (ImGui::BeginCombo("Mode", modes[selected_mode_idx])) {
+            if (ImGui::BeginCombo("Mode", modes[s_selected_mode_idx])) {
                 for (int i = 0; i < 2; i++) {
-                    bool is_selected = (selected_mode_idx == i);
+                    bool is_selected = (s_selected_mode_idx == i);
                     if (ImGui::Selectable(modes[i], is_selected))
-                        selected_mode_idx = i;
+                        s_selected_mode_idx = i;
                     if (is_selected)
                         ImGui::SetItemDefaultFocus();
                 }
@@ -43,10 +48,10 @@ namespace main_window {
             }
 
             if (ImGui::Button("Apply", ImVec2(120, 0))) {
-                if (selected_agoran_idx >= 0 && selected_agoran_idx < (int)g_state.agorans.size()) {
-                    g_state.agorans[selected_agoran_idx].mode = (AgoranMode)selected_mode_idx;
-                    AddLog("User", "Agoran " + std::to_string(g_state.agorans[selected_agoran_idx].id), 
-                           std::string("Changed mode to ") + modes[selected_mode_idx]);
+                if (s_selected_agoran_idx >= 0 && s_selected_agoran_idx < (int)g_state.agorans.size()) {
+                    g_state.agorans[s_selected_agoran_idx].mode = (AgoranMode)s_selected_mode_idx;
+                    AddLog("User", "Agoran " + std::to_string(g_state.agorans[s_selected_agoran_idx].id), 
+                           std::string("Changed mode to ") + modes[s_selected_mode_idx]);
                 }
                 ImGui::CloseCurrentPopup();
             }
@@ -57,7 +62,9 @@ namespace main_window {
             ImGui::EndPopup();
         }
         
-        ImGui::Separator();
+        // Removed the button, but kept the function for the modal logic execution
+        // We can add distinct top bar content here if needed later
+        // ImGui::Separator(); // Keeping separator if we want visual break
     }
 
     void RenderAgoranDashboard() {
@@ -73,7 +80,8 @@ namespace main_window {
         }
 
         if (columns > 0 && ImGui::BeginTable("AgoranGrid", columns, ImGuiTableFlags_SizingStretchSame)) {
-            for (auto& agoran : g_state.agorans) {
+            for (int i = 0; i < (int)g_state.agorans.size(); ++i) {
+                auto& agoran = g_state.agorans[i];
                 ImGui::TableNextColumn();
                 
                 ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
@@ -86,8 +94,18 @@ namespace main_window {
                     // Header
                     ImGui::Text("Agoran %d", agoran.id);
                     ImGui::SameLine();
-                    ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "[%s]", GetModeStr(agoran.mode));
                     
+                    // Clickable Mode
+                    ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "[%s]", GetModeStr(agoran.mode));
+                    if (ImGui::IsItemHovered()) {
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                    }
+                    if (ImGui::IsItemClicked()) {
+                        s_selected_agoran_idx = i;
+                        s_selected_mode_idx = (int)agoran.mode;
+                        s_open_popup = true;
+                    }
+
                     // Status
                     ImGui::Text("Status: ");
                     ImGui::SameLine();

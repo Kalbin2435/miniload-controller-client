@@ -16,7 +16,7 @@ namespace main_window {
         for (int i = 0; i < 5; ++i) {
             Agoran a;
             a.id = i + 1;
-            a.status = AgoranStatus::Idle;
+            a.status = AgoranStatus::StandBy;
             a.mode = AgoranMode::Automatic;
             a.trayOn = std::nullopt;
             a.lastResult = "System initialized";
