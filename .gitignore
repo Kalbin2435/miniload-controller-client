@@ -1,0 +1,19 @@
+# User specified ignores
+BuildTools/
+.cache/
+build/
+
+# Standard C++ / CMake / Windows ignores
+.vs/
+out/
+*.log
+*.obj
+*.exe
+*.pdb
+*.ilk
+*.user
+*.suo
+*.db
+*.opendb
+compile_commands.json
+*.bat
