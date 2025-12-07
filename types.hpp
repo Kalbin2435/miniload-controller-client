@@ -2,7 +2,6 @@
 
 #include <string>
 #include <optional>
-#include <vector>
 
 namespace main_window {
 
