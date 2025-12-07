@@ -10,5 +10,6 @@ namespace main_window {
     ImVec4 GetStatusColor(AgoranStatus status);
     const char* GetStatusStr(AgoranStatus status);
     const char* GetModeStr(AgoranMode mode);
+    std::string reverse_utf8(std::string s);
 
 }

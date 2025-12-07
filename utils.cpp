@@ -2,8 +2,79 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
+#include <string>
+#include <vector>
+#include <algorithm>
 
 namespace main_window {
+    // Decode UTF-8 into Unicode code points (char32_t)
+    std::u32string utf8_to_u32(const std::string& s) {
+        std::u32string out;
+        for (std::size_t i = 0; i < s.size();) {
+            unsigned char c = s[i];
+            char32_t cp = 0;
+            std::size_t bytes = 0;
+
+            if ((c & 0x80u) == 0) {                // 0xxxxxxx (ASCII)
+                cp = c;
+                bytes = 1;
+            } else if ((c & 0xE0u) == 0xC0u) {     // 110xxxxx 10xxxxxx
+                cp = (c & 0x1Fu) << 6;
+                cp |= (s[i + 1] & 0x3Fu);
+                bytes = 2;
+            } else if ((c & 0xF0u) == 0xE0u) {     // 1110xxxx 10xxxxxx 10xxxxxx
+                cp = (c & 0x0Fu) << 12;
+                cp |= (s[i + 1] & 0x3Fu) << 6;
+                cp |= (s[i + 2] & 0x3Fu);
+                bytes = 3;
+            } else if ((c & 0xF8u) == 0xF0u) {     // 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+                cp = (c & 0x07u) << 18;
+                cp |= (s[i + 1] & 0x3Fu) << 12;
+                cp |= (s[i + 2] & 0x3Fu) << 6;
+                cp |= (s[i + 3] & 0x3Fu);
+                bytes = 4;
+            } else {
+                // invalid byte in UTF-8; you might want to handle this better
+                cp = 0xFFFD; // replacement char
+                bytes = 1;
+            }
+
+            out.push_back(cp);
+            i += bytes;
+        }
+        return out;
+    }
+
+    // Encode Unicode code points back to UTF-8
+    std::string u32_to_utf8(const std::u32string& v) {
+        std::string out;
+        for (char32_t cp : v) {
+            if (cp <= 0x7Fu) {
+                out.push_back(static_cast<char>(cp));
+            } else if (cp <= 0x7FFu) {
+                out.push_back(static_cast<char>(0xC0u | ((cp >> 6) & 0x1Fu)));
+                out.push_back(static_cast<char>(0x80u | (cp & 0x3Fu)));
+            } else if (cp <= 0xFFFFu) {
+                out.push_back(static_cast<char>(0xE0u | ((cp >> 12) & 0x0Fu)));
+                out.push_back(static_cast<char>(0x80u | ((cp >> 6) & 0x3Fu)));
+                out.push_back(static_cast<char>(0x80u | (cp & 0x3Fu)));
+            } else {
+                out.push_back(static_cast<char>(0xF0u | ((cp >> 18) & 0x07u)));
+                out.push_back(static_cast<char>(0x80u | ((cp >> 12) & 0x3Fu)));
+                out.push_back(static_cast<char>(0x80u | ((cp >> 6) & 0x3Fu)));
+                out.push_back(static_cast<char>(0x80u | (cp & 0x3Fu)));
+            }
+        }
+        return out;
+    }
+
+    // High-level "reverse UTF-8 string" function
+    std::string reverse_utf8(std::string s) {
+        std::u32string codepoints = utf8_to_u32(s);
+        std::reverse(codepoints.begin(), codepoints.end());
+        return u32_to_utf8(codepoints);
+    }
+
 
     std::string GetTimeStr() {
         auto t = std::time(nullptr);

@@ -19,7 +19,7 @@ namespace main_window {
             a.status = AgoranStatus::StandBy;
             a.mode = AgoranMode::Automatic;
             a.trayOn = std::nullopt;
-            a.lastResult = "System initialized";
+            a.lastResult = reverse_utf8("סתם סטטוס בעברית חחח");
             g_state.agorans.push_back(a);
         }
 
