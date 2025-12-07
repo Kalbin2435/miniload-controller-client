@@ -22,6 +22,8 @@ namespace main_window {
         AgoranStatus status;
         AgoranMode mode;
         std::optional<int> trayOn;
+        std::optional<int> leftTray;
+        std::optional<int> rightTray;
         std::string lastResult;
     };
 

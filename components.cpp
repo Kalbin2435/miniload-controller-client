@@ -82,29 +82,25 @@ namespace main_window {
                 std::string child_id = "AgoranCard_" + std::to_string(agoran.id);
                 if (ImGui::BeginChild(child_id.c_str(), ImVec2(0, 0), ImGuiChildFlags_Borders | ImGuiChildFlags_AutoResizeY, ImGuiWindowFlags_NoScrollbar)) {
                     
+                    // --- Top Section: Robot Info & Controls ---
                     // Header
                     ImGui::Text("Agoran %d", agoran.id);
                     ImGui::SameLine();
                     ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "[%s]", GetModeStr(agoran.mode));
-                    ImGui::Separator();
-
+                    
                     // Status
                     ImGui::Text("Status: ");
                     ImGui::SameLine();
                     ImGui::TextColored(GetStatusColor(agoran.status), "%s", GetStatusStr(agoran.status));
 
-                    // Tray
+                    // Tray On Robot
                     ImGui::Text("Tray On: ");
                     ImGui::SameLine();
                     if (agoran.trayOn.has_value()) {
-                        ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.2f, 1.0f), "%d", agoran.trayOn.value());
+                        ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.2f, 1.0f), "Holding: %d", agoran.trayOn.value());
                     } else {
-                        ImGui::TextDisabled("None");
+                        ImGui::TextDisabled("Empty Handed");
                     }
-
-                    // Last Result
-                    ImGui::Text("Last Result:");
-                    ImGui::TextWrapped("%s", agoran.lastResult.c_str());
 
                     // Manual Command Button
                     ImGui::Spacing();
@@ -112,9 +108,77 @@ namespace main_window {
                     if (!manual_active) ImGui::BeginDisabled();
                     if (ImGui::Button("Send Manual Command", ImVec2(-FLT_MIN, 0))) {
                         AddLog("User", "Agoran " + std::to_string(agoran.id), "Manual command sent");
-                        agoran.lastResult = "Manual command executed wow naotna otnawot nawto nawto nawt oawn toawtn awo";
+                        agoran.lastResult = "Manual command sent...";
                     }
                     if (!manual_active) ImGui::EndDisabled();
+
+                    ImGui::Separator();
+
+                    // --- Bottom Section: Workstations (Left & Right) ---
+                    if (ImGui::BeginTable("WorkstationLayout", 2, ImGuiTableFlags_SizingStretchSame)) {
+                        
+                        // Left Workstation
+                        ImGui::TableNextColumn();
+                        ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.1f, 0.1f, 0.1f, 0.5f));
+                        if (ImGui::BeginChild("LeftStation", ImVec2(0, 0), ImGuiChildFlags_Borders | ImGuiChildFlags_AutoResizeY, ImGuiWindowFlags_NoScrollbar)) {
+                             // Centered Title
+                            const char* title = "Left";
+                            float windowWidth = ImGui::GetWindowSize().x;
+                            float textWidth = ImGui::CalcTextSize(title).x;
+                            ImGui::SetCursorPosX((windowWidth - textWidth) * 0.5f);
+                            ImGui::Text("%s", title);
+                            
+                            ImGui::Separator();
+                            
+                            if (agoran.leftTray.has_value()) {
+                                std::string trayStr = std::to_string(agoran.leftTray.value());
+                                textWidth = ImGui::CalcTextSize(trayStr.c_str()).x;
+                                ImGui::SetCursorPosX((windowWidth - textWidth) * 0.5f);
+                                ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.4f, 1.0f), "%s", trayStr.c_str());
+                            } else {
+                                const char* emptyStr = "-";
+                                textWidth = ImGui::CalcTextSize(emptyStr).x;
+                                ImGui::SetCursorPosX((windowWidth - textWidth) * 0.5f);
+                                ImGui::Text("%s", emptyStr);
+                            }
+                        }
+                        ImGui::EndChild();
+                        ImGui::PopStyleColor();
+
+                        // Right Workstation
+                        ImGui::TableNextColumn();
+                        ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.1f, 0.1f, 0.1f, 0.5f));
+                        if (ImGui::BeginChild("RightStation", ImVec2(0, 0), ImGuiChildFlags_Borders | ImGuiChildFlags_AutoResizeY, ImGuiWindowFlags_NoScrollbar)) {
+                            // Centered Title
+                            const char* title = "Right";
+                            float windowWidth = ImGui::GetWindowSize().x;
+                            float textWidth = ImGui::CalcTextSize(title).x;
+                            ImGui::SetCursorPosX((windowWidth - textWidth) * 0.5f);
+                            ImGui::Text("%s", title);
+
+                            ImGui::Separator();
+                            
+                            if (agoran.rightTray.has_value()) {
+                                std::string trayStr = std::to_string(agoran.rightTray.value());
+                                textWidth = ImGui::CalcTextSize(trayStr.c_str()).x;
+                                ImGui::SetCursorPosX((windowWidth - textWidth) * 0.5f);
+                                ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.4f, 1.0f), "%s", trayStr.c_str());
+                            } else {
+                                const char* emptyStr = "-";
+                                textWidth = ImGui::CalcTextSize(emptyStr).x;
+                                ImGui::SetCursorPosX((windowWidth - textWidth) * 0.5f);
+                                ImGui::Text("%s", emptyStr);
+                            }
+                        }
+                        ImGui::EndChild();
+                        ImGui::PopStyleColor();
+
+                        ImGui::EndTable();
+                    }
+
+                    ImGui::Separator();
+                    ImGui::TextDisabled("Last Result:");
+                    ImGui::TextWrapped("%s", agoran.lastResult.c_str());
 
                 }
                 ImGui::EndChild();
