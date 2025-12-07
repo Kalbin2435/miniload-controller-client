@@ -7,7 +7,7 @@
 #include <algorithm>
 
 namespace main_window {
-    // Decode UTF-8 into Unicode code points (char32_t)
+
     std::u32string utf8_to_u32(const std::string& s) {
         std::u32string out;
         for (std::size_t i = 0; i < s.size();) {
@@ -15,27 +15,27 @@ namespace main_window {
             char32_t cp = 0;
             std::size_t bytes = 0;
 
-            if ((c & 0x80u) == 0) {                // 0xxxxxxx (ASCII)
+            if ((c & 0x80u) == 0) {
                 cp = c;
                 bytes = 1;
-            } else if ((c & 0xE0u) == 0xC0u) {     // 110xxxxx 10xxxxxx
+            } else if ((c & 0xE0u) == 0xC0u) {
                 cp = (c & 0x1Fu) << 6;
                 cp |= (s[i + 1] & 0x3Fu);
                 bytes = 2;
-            } else if ((c & 0xF0u) == 0xE0u) {     // 1110xxxx 10xxxxxx 10xxxxxx
+            } else if ((c & 0xF0u) == 0xE0u) {
                 cp = (c & 0x0Fu) << 12;
                 cp |= (s[i + 1] & 0x3Fu) << 6;
                 cp |= (s[i + 2] & 0x3Fu);
                 bytes = 3;
-            } else if ((c & 0xF8u) == 0xF0u) {     // 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+            } else if ((c & 0xF8u) == 0xF0u) {
                 cp = (c & 0x07u) << 18;
                 cp |= (s[i + 1] & 0x3Fu) << 12;
                 cp |= (s[i + 2] & 0x3Fu) << 6;
                 cp |= (s[i + 3] & 0x3Fu);
                 bytes = 4;
             } else {
-                // invalid byte in UTF-8; you might want to handle this better
-                cp = 0xFFFD; // replacement char
+                // invalid byte ??
+                cp = 0xFFFD;
                 bytes = 1;
             }
 
@@ -45,7 +45,6 @@ namespace main_window {
         return out;
     }
 
-    // Encode Unicode code points back to UTF-8
     std::string u32_to_utf8(const std::u32string& v) {
         std::string out;
         for (char32_t cp : v) {
@@ -68,7 +67,6 @@ namespace main_window {
         return out;
     }
 
-    // High-level "reverse UTF-8 string" function
     std::string reverse_utf8(std::string s) {
         std::u32string codepoints = utf8_to_u32(s);
         std::reverse(codepoints.begin(), codepoints.end());
