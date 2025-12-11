@@ -2,7 +2,8 @@
 
 namespace main_window {
 
-    void RenderTopBar();
+    void RenderCustomPopUp();
+    void RenderAgoranModePopUp();
     void RenderAgoranDashboard();
     void RenderLogWindow();
 

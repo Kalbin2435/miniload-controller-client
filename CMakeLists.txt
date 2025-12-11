@@ -26,7 +26,7 @@ target_include_directories(imgui PUBLIC
     ${THIRD_PARTY_INCLUDE}
 )
 project(project C CXX)
-add_executable(${PROJECT_NAME} main.cpp main_window.cpp state.cpp utils.cpp components.cpp)
+add_executable(${PROJECT_NAME} main.cpp agoran_action.cpp main_window.cpp state.cpp utils.cpp components.cpp)
 target_include_directories(${PROJECT_NAME} PUBLIC
     ${THIRD_PARTY_INCLUDE}
 )

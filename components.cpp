@@ -3,6 +3,7 @@
 #include "utils.hpp"
 #include "imgui.h"
 #include <string>
+#include "agoran_action.hpp"
 
 namespace main_window {
 
@@ -11,7 +12,8 @@ namespace main_window {
     static int s_selected_mode_idx = 0;
     static bool s_open_popup = false;
 
-    void RenderTopBar() {
+
+    void RenderAgoranModePopUp() {
         // Handle popup open request from other functions
         if (s_open_popup) {
             ImGui::OpenPopup("ChangeModePopup");
@@ -103,7 +105,6 @@ namespace main_window {
                     if (ImGui::IsItemClicked()) {
                         s_selected_agoran_idx = i;
                         s_selected_mode_idx = (int)agoran.mode;
-                        s_open_popup = true;
                     }
 
                     // Status
@@ -127,6 +128,7 @@ namespace main_window {
                     if (ImGui::Button("Send Manual Command", ImVec2(-FLT_MIN, 0))) {
                         AddLog("User", "Agoran " + std::to_string(agoran.id), "Manual command sent");
                         agoran.lastResult = "Manual command sent...";
+                        open_custom_popup();
                     }
                     if (!manual_active) ImGui::EndDisabled();
 

@@ -2,6 +2,7 @@
 #include "components.hpp"
 #include "state.hpp"
 #include "imgui.h"
+#include "agoran_action.hpp"
 
 namespace main_window {
 
@@ -17,10 +18,11 @@ namespace main_window {
 
         ImGui::Begin("Agoran Control Center", nullptr, flags);
 
-        RenderTopBar();
+        RenderCustomPopUp();
+        RenderAgoranModePopUp();
         RenderAgoranDashboard();
         RenderLogWindow();
-
+        
         ImGui::End();
     }
 

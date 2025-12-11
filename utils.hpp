@@ -11,5 +11,6 @@ namespace main_window {
     const char* GetStatusStr(AgoranStatus status);
     const char* GetModeStr(AgoranMode mode);
     std::string reverse_utf8(std::string s);
+    const char* reverse_utf8_c_str(std::string s);
 
 }
