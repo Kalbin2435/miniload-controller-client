@@ -9,6 +9,7 @@ set(THIRD_PARTY_DIR       ${CMAKE_SOURCE_DIR}/external)
 set(THIRD_PARTY_INCLUDE   ${THIRD_PARTY_DIR}/include)
 set(THIRD_PARTY_LIB_DIR   ${THIRD_PARTY_DIR}/lib)
 set(IMGUI_DIR             ${CMAKE_SOURCE_DIR}/external/imgui-include)
+set(SRC_DIR               ${CMAKE_SOURCE_DIR}/src)
 
 # --- imgui library ---
 add_library(imgui STATIC
@@ -26,7 +27,14 @@ target_include_directories(imgui PUBLIC
     ${THIRD_PARTY_INCLUDE}
 )
 project(project C CXX)
-add_executable(${PROJECT_NAME} main.cpp agoran_action.cpp main_window.cpp state.cpp utils.cpp components.cpp)
+add_executable(${PROJECT_NAME} 
+    main.cpp 
+    ${SRC_DIR}/agoran_action.cpp 
+    ${SRC_DIR}/main_window.cpp 
+    ${SRC_DIR}/state.cpp 
+    ${SRC_DIR}/utils.cpp 
+    ${SRC_DIR}/components.cpp
+)
 target_include_directories(${PROJECT_NAME} PUBLIC
     ${THIRD_PARTY_INCLUDE}
 )
