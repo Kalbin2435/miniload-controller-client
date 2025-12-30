@@ -16,4 +16,3 @@ out/
 *.db
 *.opendb
 compile_commands.json
-*.bat
