@@ -94,7 +94,7 @@ namespace main_window {
                     ImGui::SameLine();
                     
                     // Clickable Mode
-                    ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "[%s]", GetModeStr(agoran.mode));
+                    ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "[%s]", GetAgoranModeStr(agoran.mode));
                     if (ImGui::IsItemHovered()) {
                         ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     }

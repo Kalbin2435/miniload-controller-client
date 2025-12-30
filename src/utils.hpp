@@ -9,7 +9,7 @@ namespace main_window {
     std::string GetTimeStr();
     ImVec4 GetStatusColor(AgoranStatus status);
     const char* GetStatusStr(AgoranStatus status);
-    const char* GetModeStr(AgoranMode mode);
+    const char* GetAgoranModeStr(AgoranMode mode);
     std::string reverse_utf8(std::string s);
     const char* reverse_utf8_c_str(std::string s);
 

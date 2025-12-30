@@ -107,7 +107,7 @@ namespace main_window {
         }
     }
 
-    const char* GetModeStr(AgoranMode mode) {
+    const char* GetAgoranModeStr(AgoranMode mode) {
         switch (mode) {
             case AgoranMode::Automatic: return "Automatic";
             case AgoranMode::Manual: return "Manual";
