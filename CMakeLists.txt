@@ -34,6 +34,7 @@ add_executable(${PROJECT_NAME}
     ${SRC_DIR}/state.cpp 
     ${SRC_DIR}/utils.cpp 
     ${SRC_DIR}/components.cpp
+    ${SRC_DIR}/AgoransState.cpp
 )
 target_include_directories(${PROJECT_NAME} PUBLIC
     ${THIRD_PARTY_INCLUDE}
