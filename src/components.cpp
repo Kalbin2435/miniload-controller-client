@@ -63,10 +63,6 @@ namespace main_window {
             }
             ImGui::EndPopup();
         }
-        
-        // Removed the button, but kept the function for the modal logic execution
-        // We can add distinct top bar content here if needed later
-        // ImGui::Separator(); // Keeping separator if we want visual break
     }
 
     void RenderAgoranDashboard() {
