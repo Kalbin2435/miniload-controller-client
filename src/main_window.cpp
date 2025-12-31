@@ -3,12 +3,14 @@
 #include "state.hpp"
 #include "imgui.h"
 #include "agoran_action.hpp"
+#include "AgoransState.hpp"
 
 namespace main_window {
 
     void create_main_window() {
         InitializeState();
 
+        main_window::AgoransState::getInstance();
         static bool use_work_area = true;
         static ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse;
 
