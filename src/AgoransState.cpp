@@ -1,6 +1,7 @@
 #include <iostream>
 #include "AgoransState.hpp"
 #include "curl/curl.h"
+#include "json.hpp"
 
 namespace main_window {
     AgoransState& AgoransState::getInstance() {
@@ -18,19 +19,34 @@ namespace main_window {
         agorans_list_.push_back(Agoran2);
     }
 
+    size_t AgoransState::WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
+        size_t totalSize = size * nmemb;
+        std::string* buffer = static_cast<std::string*>(userp);
+        buffer->append((char*)contents, totalSize);
+        return totalSize;
+    }
+
     void AgoransState::FetchAgoransData() {
         std::cout << "FetchAgoransData called\n";
         CURL* curl;
         CURLcode res;
+        std::string readBuffer;
         curl_global_init(CURL_GLOBAL_DEFAULT);
         curl = curl_easy_init();
         if (curl) {
-            curl_easy_setopt(curl, CURLOPT_URL, "https://example.com");
+            curl_easy_setopt(curl, CURLOPT_URL, "http://localhost:8000/json-obj");
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
             res = curl_easy_perform(curl);
             if (res != CURLE_OK) {
                 std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
             } else {
                 std::cout << "GOOD!\n";
+                std::cout << readBuffer << "\n";
+                auto json_data = nlohmann::json::parse(readBuffer);
+                for (const auto& item : json_data) {
+                    std::cout << item.value("id", "-1") << "\n";
+                }
             }
             curl_easy_cleanup(curl);
         }

@@ -17,6 +17,7 @@ namespace main_window {
             };
             std::vector<Agoran> agorans_list_;
             void FetchAgoransData();
+            static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp);
             AgoransState();
             ~AgoransState();
     };
