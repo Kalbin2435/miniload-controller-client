@@ -9,11 +9,15 @@ the purpose of this client is just to visually represent the state of the wareho
 * valid -> start task
 * success -> send async response
 * failure -> update agoran status to error
-* validate if agoran failed in bad status (holding tray when it shouldn't, not holding tray when it should)
+* validate if agoran failed in dangerous position (holding tray when it shouldn't, not holding tray when it should)
 * if no -> jump to recovery from safe path
 * if yes -> jump to recovery from unsafe path
 
-safe_path:
+recovery_from_safe_path:
+* to be written
+
+recovery_from_unsafe_path:
+* to be written
 
 the client should not worry about xyz locations or specific command details, as those are handled by the backend. the client uses traynumbers and agoran number and side for commands.
 
