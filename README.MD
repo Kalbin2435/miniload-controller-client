@@ -4,14 +4,14 @@ This miniload AS/RS Client is made to control 2-5 "agoran" named robots that do 
 the purpose of this client is just to visually represent the state of the warehouse, allow the users to easily change, manually control and check the state, and also to help users deal with errors and issues that may happen while operating the robots.
 
 ## in practice
--> Request from sap
--> Validate request, invalid -> respond with error, don't start task
--> valid -> start task
--> success -> send async response
--> failure -> update agoran status to error
--> validate if agoran failed in bad status (holding tray when it shouldn't, not holding tray when it should)
--> if no -> jump to recovery from safe path
--> if yes -> jump to recovery from unsafe path
+* Request from sap
+* Validate request, invalid -> respond with error, don't start task
+* valid -> start task
+* success -> send async response
+* failure -> update agoran status to error
+* validate if agoran failed in bad status (holding tray when it shouldn't, not holding tray when it should)
+* if no -> jump to recovery from safe path
+* if yes -> jump to recovery from unsafe path
 
 safe_path:
 
