@@ -10,7 +10,6 @@ namespace main_window {
     }
 
     AgoransState::AgoransState() {
-        std::cout << "TEST\n";
         FetchAgoransData();
         Agoran Agoran1 = { 1, AgoranStatus::StandBy, AgoranMode::Automatic, 0, 0, 0 };
         Agoran Agoran2 = { 2, AgoranStatus::StandBy, AgoranMode::Automatic, 0, 0, 0 };

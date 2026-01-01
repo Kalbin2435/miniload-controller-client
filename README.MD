@@ -4,11 +4,16 @@ This miniload AS/RS Client is made to control 2-5 "agoran" named robots that do 
 the purpose of this client is just to visually represent the state of the warehouse, allow the users to easily change, manually control and check the state, and also to help users deal with errors and issues that may happen while operating the robots.
 
 ## in practice
-Each agoran has the ability to go to the storage and grab a tray, and then carry it and place it on one of the workstations (there are 2 workstations per agoran). each agoran is responsible for an area in the warehouse, they do not overlap with each other. (which is why there are 2 workstations per agoran)
-agorans commands set is quite simple and consists of mainly:
-- go to xy location and grab Z (or don't grab, essentialy making it a move command)
-- go to xy location and push to Z (or don't push current load, essentialy making it a move command)
-- turn on and forget previous errors
+-> Request from sap
+-> Validate request, invalid -> respond with error, don't start task
+-> valid -> start task
+-> success -> send async response
+-> failure -> update agoran status to error
+-> validate if agoran failed in bad status (holding tray when it shouldn't, not holding tray when it should)
+-> if no -> jump to recovery from safe path
+-> if yes -> jump to recovery from unsafe path
+
+safe_path:
 
 the client should not worry about xyz locations or specific command details, as those are handled by the backend. the client uses traynumbers and agoran number and side for commands.
 
