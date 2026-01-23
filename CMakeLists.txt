@@ -29,12 +29,7 @@ target_include_directories(imgui PUBLIC
 project(project C CXX)
 add_executable(${PROJECT_NAME} 
     main.cpp 
-    ${SRC_DIR}/agoran_action.cpp 
     ${SRC_DIR}/main_window.cpp 
-    ${SRC_DIR}/state.cpp 
-    ${SRC_DIR}/utils.cpp 
-    ${SRC_DIR}/components.cpp
-    ${SRC_DIR}/AgoransState.cpp
 )
 target_include_directories(${PROJECT_NAME} PUBLIC
     ${THIRD_PARTY_INCLUDE}
