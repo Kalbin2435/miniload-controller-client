@@ -26,18 +26,30 @@ void UIElements::CraneCard(std::string childName, ImVec2 size)
 {
     ImGui::PushStyleColor(ImGuiCol_ChildBg, ColorScheme::element_background);
     ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 12.0f);
-    ImGui::BeginChild(childName.c_str(), size, ImGuiChildFlags_Borders | ImGuiWindowFlags_NoScrollbar);
+    ImGui::BeginChild(childName.c_str(), size, ImGuiChildFlags_Borders);
     ImGui::PopStyleVar();
     ImGui::PopStyleColor();
 
+    // Card Title (Crane_N)
     UIHelpers::CenterCursorBasedOnText(childName);
     UIHelpers::ColoredText(childName, ColorScheme::blue);
     ImGui::Separator();
 
+    // Mode
+    ImGui::TextWrapped("Mode:");
+    ImGui::SameLine(0,5.0f);
+    UIHelpers::ColoredText("[Automatic]", ColorScheme::orange);
+    if(ImGui::IsItemHovered())
+    {
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+    }
+
+    // Status
     ImGui::TextWrapped("Status:");
     ImGui::SameLine(0,5.0f);
     UIHelpers::ColoredText("YOOO", ColorScheme::blue);
 
+    // SapTask
     ImGui::TextWrapped("SapTask:");
     ImGui::SameLine(0,5.0f);
     UIHelpers::ColoredText("1000000415", ColorScheme::red);
@@ -48,10 +60,12 @@ void UIElements::CraneCard(std::string childName, ImVec2 size)
         ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
     }
 
+    // TrayOnBoard
     ImGui::TextWrapped("TrayOnBoard:");
     ImGui::SameLine(0,5.0f);
     UIHelpers::ColoredText("340", ColorScheme::green);
 
+    //Workstations
     if(ImGui::BeginTable("WorkstationLayout", 2, ImGuiTableFlags_SizingStretchSame))
     {
         ImGui::TableNextColumn();
@@ -67,12 +81,12 @@ void UIElements::CraneCard(std::string childName, ImVec2 size)
 void UIElements::CraneCards(int CardCount)
 {
     float spaceing = 8.0f;
-    int x = ImGui::GetContentRegionAvail().x - (int)(spaceing * (CardCount-1));
-    int y = ImGui::GetContentRegionAvail().y / 2;
+    int TotalWidthOfCards = ImGui::GetContentRegionAvail().x - (int)(spaceing * (CardCount-1));
+    int TotalHeightOfCards = ImGui::GetContentRegionAvail().y / 2;
     for (int i = CardCount; i >= 1; i--)
     {
         std::string name = std::format("Crane_{}", i);
-        UIElements::CraneCard(name, ImVec2(x/CardCount,y));
+        UIElements::CraneCard(name, ImVec2(TotalWidthOfCards/CardCount,TotalHeightOfCards));
         if(i != 1) ImGui::SameLine(0.0f,spaceing); //keep on same line unless last loop
     }
 }

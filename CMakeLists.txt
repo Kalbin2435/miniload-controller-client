@@ -29,7 +29,7 @@ target_include_directories(imgui PUBLIC
 project(project C CXX)
 add_executable(${PROJECT_NAME} 
     main.cpp 
-    ${SRC_DIR}/main_window.cpp 
+    ${SRC_DIR}/MainWindow.cpp 
     ${SRC_DIR}/UIElements.cpp 
     ${SRC_DIR}/UIHelpers.cpp 
 )
