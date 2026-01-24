@@ -55,9 +55,9 @@ void UIElements::CraneCard(std::string childName, ImVec2 size)
     if(ImGui::BeginTable("WorkstationLayout", 2, ImGuiTableFlags_SizingStretchSame))
     {
         ImGui::TableNextColumn();
-        UIElements::CraneWorkstation("Left", 22);
+        UIElements::CraneWorkstation("Right", 22);
         ImGui::TableNextColumn();
-        UIElements::CraneWorkstation("Right", 425);
+        UIElements::CraneWorkstation("Left", 425);
         ImGui::EndTable();
     }
 
@@ -69,10 +69,10 @@ void UIElements::CraneCards(int CardCount)
     float spaceing = 8.0f;
     int x = ImGui::GetContentRegionAvail().x - (int)(spaceing * (CardCount-1));
     int y = ImGui::GetContentRegionAvail().y / 2;
-    for (int i = 1; i <= CardCount; i++)
+    for (int i = CardCount; i >= 1; i--)
     {
         std::string name = std::format("Crane_{}", i);
         UIElements::CraneCard(name, ImVec2(x/CardCount,y));
-        if(i != CardCount) ImGui::SameLine(0.0f,spaceing);
+        if(i != 1) ImGui::SameLine(0.0f,spaceing); //keep on same line unless last loop
     }
 }
