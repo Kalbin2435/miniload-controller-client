@@ -4,7 +4,7 @@
 #include <string>
 #include "UIHelpers.hpp"
 
-void UIElements::AgoranCard(std::string childName, ImVec2 size)
+void UIElements::CraneCard(std::string childName, ImVec2 size)
 {
     ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.15f, 0.15f, 0.15f, 1.0f));
     ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 12.0f);
@@ -29,7 +29,7 @@ void UIElements::AgoranCard(std::string childName, ImVec2 size)
     ImGui::PopStyleColor();
 }
 
-void UIElements::AgoranCards(int CardCount)
+void UIElements::CraneCards(int CardCount)
 {
     float spaceing = 8.0f;
     int x = ImGui::GetContentRegionAvail().x - (int)(spaceing * (CardCount-1));
@@ -37,7 +37,7 @@ void UIElements::AgoranCards(int CardCount)
     for (int i = 1; i <= CardCount; i++)
     {
         std::string name = std::format("Crane_{}", i);
-        UIElements::AgoranCard(name, ImVec2(x/CardCount,y));
+        UIElements::CraneCard(name, ImVec2(x/CardCount,y));
         if(i != CardCount) ImGui::SameLine(0.0f,spaceing);
     }
 }

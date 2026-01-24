@@ -7,7 +7,7 @@ namespace main_window {
 
     void MainWindow() {
         int CraneNumber = 4;
-        UIElements::AgoranCards(CraneNumber);
+        UIElements::CraneCards(CraneNumber);
     }
 
 }

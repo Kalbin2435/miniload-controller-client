@@ -2,7 +2,6 @@
 #include <string>
 #pragma once
 namespace UIElements {
-    void CraneWorkstation(std::string side, int TrayNumber);
     void CraneCard(std::string childName, ImVec2 size);
     void CraneCards(int count);
 }

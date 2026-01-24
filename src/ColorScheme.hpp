@@ -6,4 +6,5 @@ namespace ColorScheme {
     constexpr ImVec4 green = ImVec4(0.0f, 0.7f, 0.0f, 1.0f);
     constexpr ImVec4 grey = ImVec4(0.5f, 0.5f, 0.5f, 1.0f); 
     constexpr ImVec4 element_background = ImVec4(0.15f, 0.15f, 0.15f, 1.0f); 
+    constexpr ImVec4 element_background_dark = ImVec4(0.1f, 0.1f, 0.1f, 0.5f); 
 }
